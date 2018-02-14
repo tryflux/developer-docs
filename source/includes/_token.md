@@ -5,7 +5,8 @@
 $ http --form POST https://api.test.tryflux.com/auth/oauth/token \
     client_id='<your_client_id>' \
     client_secret='<your_client_secret' \
-    grant_type='client_credentials' 
+    grant_type='client_credentials'
+    scope='<your_user_id>(optional)'
 ```
 ```json
 {
@@ -15,8 +16,9 @@ $ http --form POST https://api.test.tryflux.com/auth/oauth/token \
     "expires_in": 3600
 }
 ```
-
 Issue a new token using your `client_id` and `client_secret`
+
+* `scope` - (optional) The user id that this token should be restricted to.  If excluded the token will be valid for all users that are authorized for the client id 
 
 ## Refresh a token
 ```shell

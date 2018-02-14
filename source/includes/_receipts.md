@@ -3,7 +3,7 @@
 ## Find by external ID
 ```shell
 $ http https://api.test.tryflux.com/receipts/v2/external \
-        external_id=0ba97a9c-3c27-43e3-b9cb-62a3c857a2b0 
+        transactionId=0ba97a9c-3c27-43e3-b9cb-62a3c857a2b0&userId=4cc7c1a1-b7f2-4819-95b5-2441673539fc 
 ```
 ```json
 {
@@ -55,8 +55,10 @@ $ http https://api.test.tryflux.com/receipts/v2/external \
 }
 ```
 
-Retrieve a receipt by external ID.  
-The `external_id` should be the `id` value that was used when posting the [webhook](#webhooks)
+Retrieve a receipt by ID.  
+
+* `transactionId` - The ID given when the transaction was posted the [webhook](#webhooks)
+* `userId` - The user ID for the transaction
 
 A 404 status indicates the no receipt was found with the given ID.  If the webhook has just been posted please try again in 10-15 seconds
 <aside class="warning">
