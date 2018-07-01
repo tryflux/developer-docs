@@ -1,0 +1,43 @@
+workspace:
+  base: /workspace
+  path: /src
+
+clone:
+  git:
+    image: plugins/git
+    tags: true
+
+pipeline:
+  build:
+    image: node:9-alpine
+    commands:
+      - TMPDIR=/tmp npm install
+      - npm run build
+  s3:
+    image: plugins/s3-sync
+    region: eu-west-1
+    bucket: developers.test.tryflux.com
+    source: build/
+    acl: public-read
+    delete: true
+    cloudfront_distribution: E37E4VGDN3UJKU
+    secrets: [aws_access_key_id, aws_secret_access_key]
+    when:
+      branch: develop
+  s3:
+    image: plugins/s3-sync
+    region: eu-west-1
+    bucket: developers.tryflux.com
+    source: build/
+    acl: public-read
+    delete: true
+    cloudfront_distribution: E20FOSDK9KBFIX
+    secrets: [aws_access_key_id, aws_secret_access_key]
+    when:
+      branch: master
+  slack:
+    image: plugins/slack
+    webhook: "https://hooks.slack.com/services/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"
+    channel: "technical"
+    when:
+      status: [ success, failure ]
